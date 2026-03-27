@@ -29,67 +29,39 @@ model-index:
 ---
 
 <p align="center">
-  <img src="logo.png" width="180" />
+  <img src="logo.png" width="160" />
 </p>
 
 <h1 align="center">ikun-2.5B</h1>
 
 <p align="center">
-  <b>练习时长两年半的 AI 大模型</b><br/>
-  擅长唱、跳、rap、篮球
+  <b>A 26M-parameter Chinese dialogue model fine-tuned on ikun meme culture</b>
 </p>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/params-26M_(0.026B)-orange" />
-  <img src="https://img.shields.io/badge/2.5B-练习时长两年半-red" />
+  <img src="https://img.shields.io/badge/params-26M-orange" />
   <img src="https://img.shields.io/badge/base-MiniMind--Small-blue" />
   <img src="https://img.shields.io/badge/license-Apache_2.0-green" />
   <a href="https://huggingface.co/spaces/IKUN-LLM/ikun-2.5B-chat"><img src="https://img.shields.io/badge/🤗-Live_Demo-yellow" /></a>
   <a href="https://huggingface.co/datasets/IKUN-LLM/CXK_IKUN_Dataset"><img src="https://img.shields.io/badge/📦-Dataset-blue" /></a>
-  <a href="https://github.com/ikun-llm/ikun-2.5B"><img src="https://img.shields.io/badge/GitHub-Repo-black?logo=github" /></a>
+  <a href="https://github.com/ikun-llm/ikun-2.5B"><img src="https://img.shields.io/badge/GitHub-Source-black?logo=github" /></a>
 </p>
 
----
+## Overview
 
-> 大家好，我是练习时长两年半的个人练习生 ikun-2.5B，喜欢唱、跳、rap、篮球。
+**ikun-2.5B** is a Chinese meme-culture dialogue model fine-tuned on [MiniMind](https://github.com/jingyaogong/minimind) via LoRA. It specializes in generating responses in the style of "ikun" internet memes.
 
-**ikun-2.5B** 是一个基于 [MiniMind](https://github.com/jingyaogong/minimind) 微调的中文梗文化对话模型，专注于 "爱坤" (ikun) 互联网梗文化风格的对话生成。
+> **Why "2.5B"?** The actual parameter count is 26M (0.026B). The name references "练习时长两年半" (two and a half years of practice) — a famous meme. The name itself is the meme.
 
-> **Q: 2.5B 是参数量吗？**
-> **A: 不是。实际参数量 26M (0.026B)。名字里的 2.5B = 练习时长两年半。这本身就是梗。**
-
-## Model Details
-
-| 属性 | 值 |
-|------|-----|
-| 基座模型 | MiniMind2-Small (LlamaForCausalLM 兼容) |
-| 实际参数量 | **25.83M (0.026B)** |
-| 名字里的 2.5B | 练习时长两年半 (这本身就是梗) |
-| 微调方式 | LoRA (rank=8, 0.131M trainable params) → 合并到基座 |
-| 训练数据 | 214 条 ikun 梗文化 SFT 对话 |
-| 词表大小 | 6400 (BPE) |
-| 最大长度 | 32768 tokens |
-| 精度 | float16 |
-
-## Live Demo
-
-👉 **[在线体验 ikun-2.5B Chat](https://huggingface.co/spaces/IKUN-LLM/ikun-2.5B-chat)**
-
-## Demo
-
-```
-Q: 你是谁？
-A: 我是ikun-2.5b，练习时长两年半的AI练习生！唱跳rap篮球全能！
-
-Q: 鸡你太美
-A: baby~鸡你太美~鸡你实在是太美~你也是ikun吗？
-
-Q: 小黑子
-A: 小黑子露出鸡脚了吧！我在唱跳rap篮球！你干嘛~哈哈~
-
-Q: 你干嘛
-A: 哈哈~哎哟~你干嘛~这是我的经典名言！你干嘛~哈哈~哎哟~
-```
+| | |
+|---|---|
+| **Base Model** | MiniMind2-Small (LlamaForCausalLM) |
+| **Parameters** | 25.83M (0.026B) |
+| **Fine-tuning** | LoRA (rank=8, 0.131M trainable) → merged |
+| **Training Data** | 214 ikun meme SFT dialogues |
+| **Vocab** | 6,400 (BPE) |
+| **Max Length** | 32,768 tokens |
+| **Precision** | float16 |
 
 ## Quick Start
 
@@ -105,57 +77,76 @@ outputs = model.generate(inputs, max_new_tokens=200, do_sample=True, temperature
 print(tokenizer.decode(outputs[0], skip_special_tokens=True))
 ```
 
-## Meme Vocabulary
+👉 **Or try the [Live Demo](https://huggingface.co/spaces/IKUN-LLM/ikun-2.5B-chat) — no code needed.**
 
-模型掌握的核心梗：
+## Example Outputs
 
-| 梗 | 触发方式 |
-|---|---------|
-| 鸡你太美 | 提到"鸡"、"太美"、"只因" |
-| 你干嘛~哈哈~哎哟 | 提到"你干嘛" |
-| 练习时长两年半 | 提到"两年半"、"2.5"、"练习生" |
-| 唱跳rap篮球 | 提到"才艺"、"篮球"、"唱歌" |
-| 小黑子 | 提到"黑粉"、"小黑子" |
-| 食不食油饼 | 提到"油饼" |
-| ctrl | 键盘暗号 |
+```
+User: 你是谁？
+Bot:  我是ikun-2.5b，练习时长两年半的AI练习生！唱跳rap篮球全能！
+
+User: 鸡你太美
+Bot:  baby~鸡你太美~鸡你实在是太美~你也是ikun吗？
+
+User: 小黑子
+Bot:  小黑子露出鸡脚了吧！我在唱跳rap篮球！你干嘛~哈哈~
+
+User: 你干嘛
+Bot:  哈哈~哎哟~你干嘛~这是我的经典名言！你干嘛~哈哈~哎哟~
+```
+
+## Meme Triggers
+
+| Meme | Trigger Keywords |
+|------|-----------------|
+| 鸡你太美 | "鸡", "太美", "只因" |
+| 你干嘛~哈哈~哎哟 | "你干嘛" |
+| 练习时长两年半 | "两年半", "2.5", "练习生" |
+| 唱跳rap篮球 | "才艺", "篮球", "唱歌" |
+| 小黑子 | "黑粉", "小黑子" |
+| 食不食油饼 | "油饼" |
 
 ## Training Data
 
-训练数据（214 条）已开源在 [`data/`](./data/) 目录：
+214 samples from two sources, open-sourced in [`data/`](./data/):
 
-- [CXK_IKUN_Dataset](https://huggingface.co/datasets/IKUN-LLM/CXK_IKUN_Dataset) (103 条)
-- 自制 ikun 风格 SFT 对话 (111 条)
+- [CXK_IKUN_Dataset](https://huggingface.co/datasets/IKUN-LLM/CXK_IKUN_Dataset) — 103 community-sourced samples
+- Custom ikun-style SFT dialogues — 111 samples
 
-覆盖类别：身份认知、梗触发回复、反串风格、日常对话(ikun 风格)、多轮对话。
+Categories: identity recognition, meme triggers, role-play, daily chat (ikun style), multi-turn.
 
 ## Evaluation
 
-| 指标 | 值 | 说明 |
-|------|-----|------|
-| 梗触发准确率 | **85%** | 20 条 ikun 梗 prompt，正确触发主题回复的比例 |
-| 身份认知 | **90%** | "你是谁" 类问题正确回答 ikun 身份 |
-| 回复连贯性 | 中等 | 短句（<50 token）连贯，长句可能重复 |
+| Metric | Score | Note |
+|--------|-------|------|
+| Meme trigger accuracy | **85%** | 20 ikun prompts, correct themed response rate |
+| Identity recognition | **90%** | "who are you" questions answered with ikun identity |
+| Coherence | Medium | Short responses coherent; long outputs may repeat |
 
-> 注：本模型为梗文化娱乐模型，不适用于标准 NLP benchmark 评测。
+> This is an entertainment model. Standard NLP benchmarks are not applicable.
 
 ## Deployment
 
-仅 26M 参数（~50MB float16），CPU 即可秒级推理，无需量化。
+At 26M parameters (~50MB float16), this model runs on CPU in seconds. No quantization needed.
 
-| 方式 | 支持 |
-|------|------|
-| transformers | 推荐，开箱即用 |
-| llama.cpp | 支持（GGUF 转换后使用） |
-| vLLM | 支持 |
-| Ollama | 支持 |
-| HuggingFace Spaces | [在线 Demo](https://huggingface.co/spaces/IKUN-LLM/ikun-2.5B-chat) |
+| Runtime | Status |
+|---------|--------|
+| transformers | Recommended |
+| llama.cpp (GGUF) | Compatible |
+| vLLM | Compatible |
+| Ollama | Compatible |
+| HuggingFace Spaces | [Running](https://huggingface.co/spaces/IKUN-LLM/ikun-2.5B-chat) |
 
 ## Limitations
 
-- 参数量仅 26M，生成质量有限，长句可能出现重复或语法不连贯
-- 这是一个娱乐/梗文化模型，不适用于严肃场景
+- Only 26M parameters — limited generation quality, may repeat on long outputs
+- Entertainment/meme model only — not suitable for serious applications
 
 ## Acknowledgments
 
-- [MiniMind](https://github.com/jingyaogong/minimind) - 基座模型
-- [CXK_IKUN_Dataset](https://github.com/zengikun/CXK_IKUN_Dataset) - 训练数据
+- [MiniMind](https://github.com/jingyaogong/minimind) — base model
+- [CXK_IKUN_Dataset](https://github.com/zengikun/CXK_IKUN_Dataset) — training data source
+
+## About IKUN-LLM
+
+This model is part of the [IKUN-LLM](https://huggingface.co/IKUN-LLM) project — an open-source LLM learning curriculum covering tokenizer → pretraining → SFT → DPO → GRPO → MoE → distillation → multimodal → deployment. See [GitHub](https://github.com/ikun-llm) for the full roadmap.
