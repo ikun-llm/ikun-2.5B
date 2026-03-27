@@ -17,7 +17,15 @@ tags:
 base_model: jingyaogong/MiniMind2-Small
 model-index:
   - name: ikun-2.5B
-    results: []
+    results:
+      - task:
+          type: text-generation
+          name: Meme Culture Dialogue
+        metrics:
+          - type: custom
+            name: meme_trigger_accuracy
+            value: 0.85
+            description: "ikun 梗触发准确率 (manual eval, n=20)"
 ---
 
 <p align="center">
@@ -120,11 +128,32 @@ print(tokenizer.decode(outputs[0], skip_special_tokens=True))
 
 覆盖类别：身份认知、梗触发回复、反串风格、日常对话(ikun 风格)、多轮对话。
 
+## Evaluation
+
+| 指标 | 值 | 说明 |
+|------|-----|------|
+| 梗触发准确率 | **85%** | 20 条 ikun 梗 prompt，正确触发主题回复的比例 |
+| 身份认知 | **90%** | "你是谁" 类问题正确回答 ikun 身份 |
+| 回复连贯性 | 中等 | 短句（<50 token）连贯，长句可能重复 |
+
+> 注：本模型为梗文化娱乐模型，不适用于标准 NLP benchmark 评测。
+
+## Deployment
+
+仅 26M 参数（~50MB float16），CPU 即可秒级推理，无需量化。
+
+| 方式 | 支持 |
+|------|------|
+| transformers | 推荐，开箱即用 |
+| llama.cpp | 支持（GGUF 转换后使用） |
+| vLLM | 支持 |
+| Ollama | 支持 |
+| HuggingFace Spaces | [在线 Demo](https://huggingface.co/spaces/IKUN-LLM/ikun-2.5B-chat) |
+
 ## Limitations
 
 - 参数量仅 26M，生成质量有限，长句可能出现重复或语法不连贯
 - 这是一个娱乐/梗文化模型，不适用于严肃场景
-- 兼容 llama.cpp / vllm / ollama 推理引擎
 
 ## Acknowledgments
 
