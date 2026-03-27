@@ -1,3 +1,25 @@
+---
+language:
+  - zh
+license: apache-2.0
+library_name: transformers
+pipeline_tag: text-generation
+tags:
+  - llama
+  - lora
+  - fine-tuning
+  - chinese
+  - dialogue
+  - conversational
+  - meme
+  - entertainment
+  - minimind
+base_model: jingyaogong/MiniMind2-Small
+model-index:
+  - name: ikun-2.5B
+    results: []
+---
+
 <p align="center">
   <img src="logo.png" width="180" />
 </p>
@@ -14,6 +36,9 @@
   <img src="https://img.shields.io/badge/2.5B-练习时长两年半-red" />
   <img src="https://img.shields.io/badge/base-MiniMind--Small-blue" />
   <img src="https://img.shields.io/badge/license-Apache_2.0-green" />
+  <a href="https://huggingface.co/spaces/IKUN-LLM/ikun-2.5B-chat"><img src="https://img.shields.io/badge/🤗-Live_Demo-yellow" /></a>
+  <a href="https://huggingface.co/datasets/IKUN-LLM/CXK_IKUN_Dataset"><img src="https://img.shields.io/badge/📦-Dataset-blue" /></a>
+  <a href="https://github.com/ikun-llm/ikun-2.5B"><img src="https://img.shields.io/badge/GitHub-Repo-black?logo=github" /></a>
 </p>
 
 ---
@@ -38,6 +63,10 @@
 | 最大长度 | 32768 tokens |
 | 精度 | float16 |
 
+## Live Demo
+
+👉 **[在线体验 ikun-2.5B Chat](https://huggingface.co/spaces/IKUN-LLM/ikun-2.5B-chat)**
+
 ## Demo
 
 ```
@@ -59,8 +88,8 @@ A: 哈哈~哎哟~你干嘛~这是我的经典名言！你干嘛~哈哈~哎哟~
 ```python
 from transformers import AutoTokenizer, AutoModelForCausalLM
 
-model = AutoModelForCausalLM.from_pretrained("ikun-llm/ikun-2.5B", trust_remote_code=True)
-tokenizer = AutoTokenizer.from_pretrained("ikun-llm/ikun-2.5B")
+model = AutoModelForCausalLM.from_pretrained("IKUN-LLM/ikun-2.5B", trust_remote_code=True)
+tokenizer = AutoTokenizer.from_pretrained("IKUN-LLM/ikun-2.5B")
 
 messages = [{"role": "user", "content": "你是谁？"}]
 inputs = tokenizer.apply_chat_template(messages, tokenize=True, add_generation_prompt=True, return_tensors="pt")
@@ -86,7 +115,7 @@ print(tokenizer.decode(outputs[0], skip_special_tokens=True))
 
 训练数据（214 条）已开源在 [`data/`](./data/) 目录：
 
-- [CXK_IKUN_Dataset](https://github.com/zengikun/CXK_IKUN_Dataset) (103 条)
+- [CXK_IKUN_Dataset](https://huggingface.co/datasets/IKUN-LLM/CXK_IKUN_Dataset) (103 条)
 - 自制 ikun 风格 SFT 对话 (111 条)
 
 覆盖类别：身份认知、梗触发回复、反串风格、日常对话(ikun 风格)、多轮对话。
